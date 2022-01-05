@@ -63,7 +63,7 @@
     let active = false;
     addEventListener('keydown', (e) => {
       if(active === false) {
-        key_pressed = e.key.toUpperCase().charCodeAt(0);
+        key_pressed = e.keyCode;
         if(key_pressed === +(audio_key.getAttribute("data-key"))) {
           audio_key.currentTime = 0;
           audio_key.play();
@@ -73,12 +73,28 @@
     })
     addEventListener('keyup', (e) => {
       if(active === true) {
-        key_unpressed = e.key.toUpperCase().charCodeAt(0);
+        key_unpressed = e.keyCode;
         if(key_unpressed === +(audio_key.getAttribute("data-key"))) {
           active = false;
         }
       }
     })
+  })
+
+  divBoxLetters = document.querySelectorAll(".keys .key");
+  divBoxLetters.forEach((boxLetter) =>  {
+    let active = false;
+    addEventListener('keydown', (e) => {
+      if(active===false){
+        key_pressed = e.keyCode;
+        if(key_pressed===+(boxLetter.getAttribute("data-key"))) {
+          boxLetter.classList.toggle("playing");
+          setTimeout(() => {
+            boxLetter.classList.toggle("playing");
+          }, 100);
+        }
+      }
+    })    
   })
 </script>
 
