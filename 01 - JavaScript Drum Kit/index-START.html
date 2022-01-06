@@ -58,43 +58,39 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  audio = document.querySelectorAll("audio");
-  audio.forEach((audio_key) => {
-    let active = false;
-    addEventListener('keydown', (e) => {
-      if(active === false) {
-        key_pressed = e.keyCode;
-        if(key_pressed === +(audio_key.getAttribute("data-key"))) {
-          audio_key.currentTime = 0;
-          audio_key.play();
-          active = true;
-        }
-      }
-    })
-    addEventListener('keyup', (e) => {
-      if(active === true) {
-        key_unpressed = e.keyCode;
-        if(key_unpressed === +(audio_key.getAttribute("data-key"))) {
-          active = false;
-        }
-      }
-    })
+  let active = {
+    "65": false,
+    "83": false,
+    "68": false,
+    "70": false,
+    "71": false,
+    "72": false,
+    "74": false,
+    "75": false,
+    "76": false,
+  };
+
+  window.addEventListener('keydown', (e) => {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    if(!audio) return;
+    const boxLetter = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if(active[e.keyCode]===false) {
+      audio.currentTime = 0;
+      audio.play();
+      active[e.keyCode]=true;
+      boxLetter.classList.toggle("playing");
+      setTimeout(() => {
+        boxLetter.classList.toggle("playing");
+      }, 100);
+    }
   })
 
-  divBoxLetters = document.querySelectorAll(".keys .key");
-  divBoxLetters.forEach((boxLetter) =>  {
-    let active = false;
-    addEventListener('keydown', (e) => {
-      if(active===false){
-        key_pressed = e.keyCode;
-        if(key_pressed===+(boxLetter.getAttribute("data-key"))) {
-          boxLetter.classList.toggle("playing");
-          setTimeout(() => {
-            boxLetter.classList.toggle("playing");
-          }, 100);
-        }
-      }
-    })    
+  window.addEventListener('keyup', (e) => {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    if(!audio) return;
+    if(active[e.keyCode]===true) {
+      active[e.keyCode]=false;
+    }
   })
 </script>
 
